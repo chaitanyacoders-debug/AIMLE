@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Machine Learning Interview Prep — 200 Questions + 10 Projects</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0b0d;
+    --bg-soft:#141416;
+    --card:#19191c;
+    --card-hover:#202023;
+    --border:#2a2a2e;
+    --orange:#ff7a18;
+    --orange-soft:#ffb37a;
+    --orange-dim:#cc6313;
+    --text:#f1f1ef;
+    --text-dim:#a8a8ac;
+    --green:#5fd17a;
+    --yellow:#f0c861;
+    --red:#ff6b6b;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    scroll-behavior:smooth;
+  }
+  body{
+    background:
+      radial-gradient(circle at 15% 0%, rgba(255,122,24,0.08), transparent 40%),
+      radial-gradient(circle at 85% 20%, rgba(255,122,24,0.05), transparent 45%),
+      var(--bg);
+    min-height:100vh;
+    padding-bottom:60px;
+  }
+  h1,h2,h3{font-family:'Sora',sans-serif;}
+
+  /* Header */
+  header{
+    padding:48px 24px 32px;
+    text-align:center;
+    border-bottom:1px solid var(--border);
+    background:linear-gradient(180deg, rgba(255,122,24,0.06), transparent);
+  }
+  header .tag{
+    display:inline-block;
+    color:var(--orange);
+    background:rgba(255,122,24,0.1);
+    border:1px solid rgba(255,122,24,0.3);
+    padding:5px 14px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:0.5px;
+    text-transform:uppercase;
+    margin-bottom:16px;
+  }
+  header h1{
+    font-size:clamp(28px,5vw,44px);
+    font-weight:800;
+    line-height:1.15;
+    margin-bottom:12px;
+  }
+  header h1 span{color:var(--orange);}
+  header p{
+    color:var(--text-dim);
+    max-width:640px;
+    margin:0 auto;
+    font-size:15px;
+  }
+
+  /* Tabs */
+  .tabs{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    margin:28px auto 0;
+    max-width:500px;
+    padding:0 16px;
+  }
+  .tab-btn{
+    flex:1;
+    background:var(--card);
+    border:1px solid var(--border);
+    color:var(--text-dim);
+    padding:12px 16px;
+    border-radius:10px;
+    font-weight:600;
+    font-size:14px;
+    cursor:pointer;
+    transition:.2s;
+    font-family:'Inter',sans-serif;
+  }
+  .tab-btn:hover{border-color:var(--orange-dim);color:var(--text);}
+  .tab-btn.active{
+    background:linear-gradient(135deg, var(--orange), var(--orange-dim));
+    color:#1a0e02;
+    border-color:var(--orange);
+  }
+
+  .wrap{max-width:980px;margin:0 auto;padding:0 20px;}
+
+  /* ===== Questions section ===== */
+  .stats-bar{
+    display:flex;
+    flex-wrap:wrap;
+    gap:14px;
+    margin:32px 0 20px;
+  }
+  .stat{
+    flex:1;
+    min-width:130px;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:16px 18px;
+  }
+  .stat .num{font-size:26px;font-weight:800;color:var(--orange);font-family:'Sora',sans-serif;}
+  .stat .lbl{font-size:12px;color:var(--text-dim);margin-top:2px;}
+
+  .progress-outer{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:999px;
+    height:10px;
+    overflow:hidden;
+    margin-bottom:24px;
+  }
+  .progress-inner{
+    height:100%;
+    background:linear-gradient(90deg, var(--orange-dim), var(--orange));
+    width:0%;
+    transition:width .3s ease;
+  }
+
+  .controls{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    margin-bottom:20px;
+  }
+  .search-box{
+    flex:2;
+    min-width:220px;
+    position:relative;
+  }
+  .search-box input{
+    width:100%;
+    background:var(--card);
+    border:1px solid var(--border);
+    color:var(--text);
+    padding:12px 16px 12px 38px;
+    border-radius:10px;
+    font-size:14px;
+    font-family:'Inter',sans-serif;
+  }
+  .search-box input:focus{outline:none;border-color:var(--orange);}
+  .search-box::before{
+    content:"⌕";
+    position:absolute;
+    left:14px;top:50%;
+    transform:translateY(-50%);
+    color:var(--text-dim);
+    font-size:16px;
+  }
+  select{
+    background:var(--card);
+    border:1px solid var(--border);
+    color:var(--text);
+    padding:12px 14px;
+    border-radius:10px;
+    font-size:14px;
+    font-family:'Inter',sans-serif;
+    cursor:pointer;
+  }
+  select:focus{outline:none;border-color:var(--orange);}
+
+  .diff-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;}
+  .diff-chip{
+    border:1px solid var(--border);
+    background:var(--card);
+    color:var(--text-dim);
+    padding:7px 14px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.2s;
+  }
+  .diff-chip.active{
+    border-color:var(--orange);
+    color:var(--orange);
+    background:rgba(255,122,24,0.1);
+  }
+
+  .q-list{display:flex;flex-direction:column;gap:10px;}
+  .q-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:16px 18px;
+    display:flex;
+    align-items:flex-start;
+    gap:14px;
+    transition:.15s;
+    cursor:pointer;
+  }
+  .q-card:hover{background:var(--card-hover);border-color:var(--orange-dim);}
+  .q-card.done{opacity:0.55;}
+  .q-card.done .q-text{text-decoration:line-through;text-decoration-color:var(--orange-dim);}
+  .q-check{
+    width:22px;height:22px;
+    border-radius:6px;
+    border:2px solid var(--border);
+    flex-shrink:0;
+    margin-top:2px;
+    display:flex;align-items:center;justify-content:center;
+    transition:.15s;
+  }
+  .q-card.done .q-check{
+    background:var(--orange);
+    border-color:var(--orange);
+    color:#1a0e02;
+    font-weight:700;
+    font-size:13px;
+  }
+  .q-body{flex:1;}
+  .q-meta{display:flex;gap:8px;align-items:center;margin-bottom:6px;flex-wrap:wrap;}
+  .q-id{color:var(--text-dim);font-size:11px;font-weight:600;}
+  .q-cat{
+    color:var(--orange-soft);
+    font-size:11px;
+    font-weight:600;
+    background:rgba(255,122,24,0.08);
+    padding:2px 8px;
+    border-radius:6px;
+  }
+  .q-diff{
+    font-size:11px;
+    font-weight:700;
+    padding:2px 8px;
+    border-radius:6px;
+  }
+  .q-diff.Easy{color:var(--green);background:rgba(95,209,122,0.1);}
+  .q-diff.Medium{color:var(--yellow);background:rgba(240,200,97,0.1);}
+  .q-diff.Hard{color:var(--red);background:rgba(255,107,107,0.1);}
+  .q-text{font-size:14.5px;line-height:1.5;color:var(--text);}
+
+  .no-results{
+    text-align:center;
+    padding:60px 20px;
+    color:var(--text-dim);
+  }
+
+  /* ===== Projects section ===== */
+  .projects-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(290px,1fr));
+    gap:18px;
+    margin:32px 0 20px;
+  }
+  .proj-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:22px;
+    transition:.2s;
+    position:relative;
+    overflow:hidden;
+  }
+  .proj-card:hover{
+    border-color:var(--orange-dim);
+    transform:translateY(-2px);
+  }
+  .proj-num{
+    position:absolute;
+    top:14px;right:18px;
+    font-family:'Sora',sans-serif;
+    font-size:38px;
+    font-weight:800;
+    color:rgba(255,122,24,0.08);
+  }
+  .proj-card h3{
+    color:var(--orange);
+    font-size:18px;
+    margin-bottom:10px;
+    padding-right:30px;
+  }
+  .proj-level{
+    display:inline-block;
+    font-size:11px;
+    font-weight:700;
+    padding:3px 10px;
+    border-radius:20px;
+    margin-bottom:12px;
+    background:rgba(255,122,24,0.1);
+    color:var(--orange-soft);
+    border:1px solid rgba(255,122,24,0.25);
+  }
+  .proj-card p{
+    color:var(--text-dim);
+    font-size:13.5px;
+    line-height:1.6;
+    margin-bottom:14px;
+  }
+  .proj-stack{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    margin-bottom:14px;
+  }
+  .proj-stack span{
+    background:var(--bg-soft);
+    border:1px solid var(--border);
+    color:var(--text-dim);
+    font-size:11px;
+    padding:4px 9px;
+    border-radius:6px;
+  }
+  .proj-resume{
+    border-top:1px dashed var(--border);
+    padding-top:12px;
+    font-size:12.5px;
+    color:var(--orange-soft);
+    line-height:1.5;
+  }
+  .proj-resume b{color:var(--orange);}
+
+  .hidden{display:none !important;}
+
+  footer{
+    text-align:center;
+    margin-top:50px;
+    color:var(--text-dim);
+    font-size:12px;
+    padding:0 20px;
+  }
+  footer span{color:var(--orange);}
+
+  @media(max-width:600px){
+    .stats-bar{flex-direction:row;flex-wrap:wrap;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="tag">Cirameti Academy · AI &amp; ML Track</div>
+  <h1>Machine Learning <span>Interview Prep</span></h1>
+  <p>200 curated ML questions across 20 core topics with progress tracking, plus 10 unique project ideas that actually look good on a resume.</p>
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="questions">200 Questions</button>
+    <button class="tab-btn" data-tab="projects">10 Projects</button>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- QUESTIONS TAB -->
+  <section id="questions-tab">
+    <div class="stats-bar">
+      <div class="stat"><div class="num" id="statTotal">200</div><div class="lbl">Total Questions</div></div>
+      <div class="stat"><div class="num" id="statDone">0</div><div class="lbl">Completed</div></div>
+      <div class="stat"><div class="num" id="statLeft">200</div><div class="lbl">Remaining</div></div>
+      <div class="stat"><div class="num" id="statPct">0%</div><div class="lbl">Progress</div></div>
+    </div>
+    <div class="progress-outer"><div class="progress-inner" id="progressBar"></div></div>
+
+    <div class="controls">
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search questions or topics...">
+      </div>
+      <select id="categoryFilter"><option value="all">All Categories</option></select>
+      <select id="statusFilter">
+        <option value="all">All</option>
+        <option value="done">Completed</option>
+        <option value="pending">Pending</option>
+      </select>
+    </div>
+
+    <div class="diff-filters" id="diffFilters">
+      <div class="diff-chip active" data-diff="all">All Levels</div>
+      <div class="diff-chip" data-diff="Easy">Easy</div>
+      <div class="diff-chip" data-diff="Medium">Medium</div>
+      <div class="diff-chip" data-diff="Hard">Hard</div>
+    </div>
+
+    <div class="q-list" id="qList"></div>
+    <div class="no-results hidden" id="noResults">No questions match your filters.</div>
+  </section>
+
+  <!-- PROJECTS TAB -->
+  <section id="projects-tab" class="hidden">
+    <div class="projects-grid" id="projGrid"></div>
+  </section>
+
+  <footer>Built for resume-ready prep · Progress is saved automatically in your browser · <span>Cirameti Academy</span></footer>
+</div>
+
+<script>
+const questions = [{"id": 1, "category": "ML Basics", "question": "What is Machine Learning and how does it differ from traditional programming?", "difficulty": "Easy"}, {"id": 2, "category": "ML Basics", "question": "Explain the difference between supervised, unsupervised, and reinforcement learning.", "difficulty": "Medium"}, {"id": 3, "category": "ML Basics", "question": "What is the difference between AI, ML, and Deep Learning?", "difficulty": "Hard"}, {"id": 4, "category": "ML Basics", "question": "What are features and labels in a dataset?", "difficulty": "Easy"}, {"id": 5, "category": "ML Basics", "question": "Explain the difference between classification and regression problems.", "difficulty": "Medium"}, {"id": 6, "category": "ML Basics", "question": "What is the curse of dimensionality?", "difficulty": "Hard"}, {"id": 7, "category": "ML Basics", "question": "What is the difference between parametric and non-parametric models?", "difficulty": "Easy"}, {"id": 8, "category": "ML Basics", "question": "What is a hypothesis function in ML?", "difficulty": "Medium"}, {"id": 9, "category": "ML Basics", "question": "What is the difference between online learning and batch learning?", "difficulty": "Hard"}, {"id": 10, "category": "ML Basics", "question": "What is semi-supervised learning and when is it used?", "difficulty": "Easy"}, {"id": 11, "category": "Linear Regression", "question": "Explain how linear regression works and its assumptions.", "difficulty": "Easy"}, {"id": 12, "category": "Linear Regression", "question": "What is the cost function used in linear regression?", "difficulty": "Medium"}, {"id": 13, "category": "Linear Regression", "question": "What is gradient descent and how does it optimize linear regression?", "difficulty": "Hard"}, {"id": 14, "category": "Linear Regression", "question": "What is the difference between simple and multiple linear regression?", "difficulty": "Easy"}, {"id": 15, "category": "Linear Regression", "question": "What is multicollinearity and how does it affect linear regression?", "difficulty": "Medium"}, {"id": 16, "category": "Linear Regression", "question": "What is R-squared and adjusted R-squared?", "difficulty": "Hard"}, {"id": 17, "category": "Linear Regression", "question": "What is heteroscedasticity in regression?", "difficulty": "Easy"}, {"id": 18, "category": "Linear Regression", "question": "Explain polynomial regression and when it is used.", "difficulty": "Medium"}, {"id": 19, "category": "Linear Regression", "question": "What are residuals and why are they analyzed?", "difficulty": "Hard"}, {"id": 20, "category": "Linear Regression", "question": "What is the normal equation method for linear regression?", "difficulty": "Easy"}, {"id": 21, "category": "Logistic Regression", "question": "Explain how logistic regression works for classification.", "difficulty": "Easy"}, {"id": 22, "category": "Logistic Regression", "question": "What is the sigmoid function and why is it used in logistic regression?", "difficulty": "Medium"}, {"id": 23, "category": "Logistic Regression", "question": "What is the cost function for logistic regression and why not MSE?", "difficulty": "Hard"}, {"id": 24, "category": "Logistic Regression", "question": "What is the decision boundary in logistic regression?", "difficulty": "Easy"}, {"id": 25, "category": "Logistic Regression", "question": "Explain multiclass classification using logistic regression (one-vs-rest, softmax).", "difficulty": "Medium"}, {"id": 26, "category": "Logistic Regression", "question": "What is maximum likelihood estimation in logistic regression?", "difficulty": "Hard"}, {"id": 27, "category": "Logistic Regression", "question": "What is the odds ratio in logistic regression?", "difficulty": "Easy"}, {"id": 28, "category": "Logistic Regression", "question": "How do you handle imbalanced classes in logistic regression?", "difficulty": "Medium"}, {"id": 29, "category": "Logistic Regression", "question": "What is the difference between logistic regression and linear regression?", "difficulty": "Hard"}, {"id": 30, "category": "Logistic Regression", "question": "What are the assumptions of logistic regression?", "difficulty": "Easy"}, {"id": 31, "category": "Decision Trees", "question": "How does a decision tree algorithm work?", "difficulty": "Easy"}, {"id": 32, "category": "Decision Trees", "question": "What is entropy and information gain in decision trees?", "difficulty": "Medium"}, {"id": 33, "category": "Decision Trees", "question": "What is the Gini impurity measure?", "difficulty": "Hard"}, {"id": 34, "category": "Decision Trees", "question": "What is pruning in decision trees and why is it needed?", "difficulty": "Easy"}, {"id": 35, "category": "Decision Trees", "question": "What are the advantages and disadvantages of decision trees?", "difficulty": "Medium"}, {"id": 36, "category": "Decision Trees", "question": "How do decision trees handle continuous and categorical variables?", "difficulty": "Hard"}, {"id": 37, "category": "Decision Trees", "question": "What is overfitting in decision trees and how is it prevented?", "difficulty": "Easy"}, {"id": 38, "category": "Decision Trees", "question": "Explain the CART algorithm.", "difficulty": "Medium"}, {"id": 39, "category": "Decision Trees", "question": "What is the difference between ID3, C4.5, and CART?", "difficulty": "Hard"}, {"id": 40, "category": "Decision Trees", "question": "How is feature importance calculated in decision trees?", "difficulty": "Easy"}, {"id": 41, "category": "Ensemble Methods", "question": "What is ensemble learning and why is it effective?", "difficulty": "Easy"}, {"id": 42, "category": "Ensemble Methods", "question": "Explain bagging and how Random Forest uses it.", "difficulty": "Medium"}, {"id": 43, "category": "Ensemble Methods", "question": "Explain boosting and how it differs from bagging.", "difficulty": "Hard"}, {"id": 44, "category": "Ensemble Methods", "question": "How does AdaBoost work?", "difficulty": "Easy"}, {"id": 45, "category": "Ensemble Methods", "question": "How does Gradient Boosting work?", "difficulty": "Medium"}, {"id": 46, "category": "Ensemble Methods", "question": "What is XGBoost and why is it popular?", "difficulty": "Hard"}, {"id": 47, "category": "Ensemble Methods", "question": "What is the difference between Random Forest and Gradient Boosting?", "difficulty": "Easy"}, {"id": 48, "category": "Ensemble Methods", "question": "What is stacking in ensemble learning?", "difficulty": "Medium"}, {"id": 49, "category": "Ensemble Methods", "question": "What is the bias-variance tradeoff in ensemble methods?", "difficulty": "Hard"}, {"id": 50, "category": "Ensemble Methods", "question": "What are out-of-bag (OOB) samples in Random Forest?", "difficulty": "Easy"}, {"id": 51, "category": "SVM", "question": "Explain how Support Vector Machines work.", "difficulty": "Easy"}, {"id": 52, "category": "SVM", "question": "What is a kernel trick and why is it used in SVM?", "difficulty": "Medium"}, {"id": 53, "category": "SVM", "question": "What is the difference between hard margin and soft margin SVM?", "difficulty": "Hard"}, {"id": 54, "category": "SVM", "question": "What are support vectors?", "difficulty": "Easy"}, {"id": 55, "category": "SVM", "question": "Explain different types of kernels used in SVM (linear, polynomial, RBF).", "difficulty": "Medium"}, {"id": 56, "category": "SVM", "question": "What is the role of the C parameter in SVM?", "difficulty": "Hard"}, {"id": 57, "category": "SVM", "question": "How does SVM handle multiclass classification?", "difficulty": "Easy"}, {"id": 58, "category": "SVM", "question": "What is the margin in SVM and why is it maximized?", "difficulty": "Medium"}, {"id": 59, "category": "SVM", "question": "What are the advantages and limitations of SVM?", "difficulty": "Hard"}, {"id": 60, "category": "SVM", "question": "How is SVM used for regression (SVR)?", "difficulty": "Easy"}, {"id": 61, "category": "Naive Bayes and KNN", "question": "Explain how the Naive Bayes algorithm works.", "difficulty": "Easy"}, {"id": 62, "category": "Naive Bayes and KNN", "question": "Why is Naive Bayes called 'naive'?", "difficulty": "Medium"}, {"id": 63, "category": "Naive Bayes and KNN", "question": "What are the different types of Naive Bayes classifiers?", "difficulty": "Hard"}, {"id": 64, "category": "Naive Bayes and KNN", "question": "How does K-Nearest Neighbors (KNN) work?", "difficulty": "Easy"}, {"id": 65, "category": "Naive Bayes and KNN", "question": "How do you choose the optimal value of K in KNN?", "difficulty": "Medium"}, {"id": 66, "category": "Naive Bayes and KNN", "question": "What distance metrics are used in KNN?", "difficulty": "Hard"}, {"id": 67, "category": "Naive Bayes and KNN", "question": "What is the curse of dimensionality's effect on KNN?", "difficulty": "Easy"}, {"id": 68, "category": "Naive Bayes and KNN", "question": "What is Laplace smoothing in Naive Bayes?", "difficulty": "Medium"}, {"id": 69, "category": "Naive Bayes and KNN", "question": "What are the advantages and disadvantages of KNN?", "difficulty": "Hard"}, {"id": 70, "category": "Naive Bayes and KNN", "question": "How does feature scaling affect KNN performance?", "difficulty": "Easy"}, {"id": 71, "category": "Clustering", "question": "Explain how K-Means clustering works.", "difficulty": "Easy"}, {"id": 72, "category": "Clustering", "question": "How do you choose the optimal number of clusters (Elbow method, Silhouette score)?", "difficulty": "Medium"}, {"id": 73, "category": "Clustering", "question": "What is hierarchical clustering and its types (agglomerative, divisive)?", "difficulty": "Hard"}, {"id": 74, "category": "Clustering", "question": "What is DBSCAN and how does it differ from K-Means?", "difficulty": "Easy"}, {"id": 75, "category": "Clustering", "question": "What are the limitations of K-Means clustering?", "difficulty": "Medium"}, {"id": 76, "category": "Clustering", "question": "What is the difference between K-Means and K-Medoids?", "difficulty": "Hard"}, {"id": 77, "category": "Clustering", "question": "What is a dendrogram in hierarchical clustering?", "difficulty": "Easy"}, {"id": 78, "category": "Clustering", "question": "How do you evaluate clustering performance?", "difficulty": "Medium"}, {"id": 79, "category": "Clustering", "question": "What is Gaussian Mixture Model (GMM) clustering?", "difficulty": "Hard"}, {"id": 80, "category": "Clustering", "question": "What is the initialization problem in K-Means and how is it solved (K-Means++)?", "difficulty": "Easy"}, {"id": 81, "category": "Dimensionality Reduction", "question": "What is dimensionality reduction and why is it important?", "difficulty": "Easy"}, {"id": 82, "category": "Dimensionality Reduction", "question": "Explain how Principal Component Analysis (PCA) works.", "difficulty": "Medium"}, {"id": 83, "category": "Dimensionality Reduction", "question": "What are eigenvalues and eigenvectors in the context of PCA?", "difficulty": "Hard"}, {"id": 84, "category": "Dimensionality Reduction", "question": "What is explained variance ratio in PCA?", "difficulty": "Easy"}, {"id": 85, "category": "Dimensionality Reduction", "question": "What is the difference between PCA and LDA?", "difficulty": "Medium"}, {"id": 86, "category": "Dimensionality Reduction", "question": "What is t-SNE and when is it used?", "difficulty": "Hard"}, {"id": 87, "category": "Dimensionality Reduction", "question": "What is feature selection vs feature extraction?", "difficulty": "Easy"}, {"id": 88, "category": "Dimensionality Reduction", "question": "What is Singular Value Decomposition (SVD)?", "difficulty": "Medium"}, {"id": 89, "category": "Dimensionality Reduction", "question": "What are the limitations of PCA?", "difficulty": "Hard"}, {"id": 90, "category": "Dimensionality Reduction", "question": "What is autoencoder-based dimensionality reduction?", "difficulty": "Easy"}, {"id": 91, "category": "Model Evaluation", "question": "What is a confusion matrix and what metrics are derived from it?", "difficulty": "Easy"}, {"id": 92, "category": "Model Evaluation", "question": "Explain precision, recall, and F1-score.", "difficulty": "Medium"}, {"id": 93, "category": "Model Evaluation", "question": "What is the ROC curve and AUC?", "difficulty": "Hard"}, {"id": 94, "category": "Model Evaluation", "question": "What is the difference between accuracy and precision/recall when classes are imbalanced?", "difficulty": "Easy"}, {"id": 95, "category": "Model Evaluation", "question": "What is cross-validation and why is it used?", "difficulty": "Medium"}, {"id": 96, "category": "Model Evaluation", "question": "What is k-fold cross-validation?", "difficulty": "Hard"}, {"id": 97, "category": "Model Evaluation", "question": "What is stratified sampling in cross-validation?", "difficulty": "Easy"}, {"id": 98, "category": "Model Evaluation", "question": "What is the bias-variance tradeoff?", "difficulty": "Medium"}, {"id": 99, "category": "Model Evaluation", "question": "What is the difference between Type I and Type II errors?", "difficulty": "Hard"}, {"id": 100, "category": "Model Evaluation", "question": "What evaluation metrics are used for regression models (MAE, MSE, RMSE)?", "difficulty": "Easy"}, {"id": 101, "category": "Feature Engineering", "question": "What is feature engineering and why is it important?", "difficulty": "Easy"}, {"id": 102, "category": "Feature Engineering", "question": "What is one-hot encoding vs label encoding?", "difficulty": "Medium"}, {"id": 103, "category": "Feature Engineering", "question": "What is feature scaling and why is it needed (normalization vs standardization)?", "difficulty": "Hard"}, {"id": 104, "category": "Feature Engineering", "question": "How do you handle missing data in a dataset?", "difficulty": "Easy"}, {"id": 105, "category": "Feature Engineering", "question": "What is outlier detection and how do you handle outliers?", "difficulty": "Medium"}, {"id": 106, "category": "Feature Engineering", "question": "What is feature binning/discretization?", "difficulty": "Hard"}, {"id": 107, "category": "Feature Engineering", "question": "What is the difference between filter, wrapper, and embedded feature selection methods?", "difficulty": "Easy"}, {"id": 108, "category": "Feature Engineering", "question": "What is target encoding?", "difficulty": "Medium"}, {"id": 109, "category": "Feature Engineering", "question": "What is data leakage and how do you prevent it?", "difficulty": "Hard"}, {"id": 110, "category": "Feature Engineering", "question": "How do you handle categorical variables with high cardinality?", "difficulty": "Easy"}, {"id": 111, "category": "Regularization and Optimization", "question": "What is regularization and why is it used in ML?", "difficulty": "Easy"}, {"id": 112, "category": "Regularization and Optimization", "question": "Explain L1 (Lasso) and L2 (Ridge) regularization.", "difficulty": "Medium"}, {"id": 113, "category": "Regularization and Optimization", "question": "What is Elastic Net regularization?", "difficulty": "Hard"}, {"id": 114, "category": "Regularization and Optimization", "question": "What is the difference between batch, mini-batch, and stochastic gradient descent?", "difficulty": "Easy"}, {"id": 115, "category": "Regularization and Optimization", "question": "What is learning rate and how does it affect training?", "difficulty": "Medium"}, {"id": 116, "category": "Regularization and Optimization", "question": "What is momentum in gradient descent optimization?", "difficulty": "Hard"}, {"id": 117, "category": "Regularization and Optimization", "question": "Explain Adam optimizer and how it differs from SGD.", "difficulty": "Easy"}, {"id": 118, "category": "Regularization and Optimization", "question": "What is early stopping and how does it prevent overfitting?", "difficulty": "Medium"}, {"id": 119, "category": "Regularization and Optimization", "question": "What is dropout regularization?", "difficulty": "Hard"}, {"id": 120, "category": "Regularization and Optimization", "question": "What is the vanishing gradient problem?", "difficulty": "Easy"}, {"id": 121, "category": "Neural Networks Basics", "question": "What is a perceptron and how does it work?", "difficulty": "Easy"}, {"id": 122, "category": "Neural Networks Basics", "question": "Explain the architecture of a feedforward neural network.", "difficulty": "Medium"}, {"id": 123, "category": "Neural Networks Basics", "question": "What is backpropagation and how does it work?", "difficulty": "Hard"}, {"id": 124, "category": "Neural Networks Basics", "question": "What are activation functions and why are they needed?", "difficulty": "Easy"}, {"id": 125, "category": "Neural Networks Basics", "question": "Compare ReLU, sigmoid, and tanh activation functions.", "difficulty": "Medium"}, {"id": 126, "category": "Neural Networks Basics", "question": "What is the role of weights and biases in a neural network?", "difficulty": "Hard"}, {"id": 127, "category": "Neural Networks Basics", "question": "What is a loss function and how is it different from a cost function?", "difficulty": "Easy"}, {"id": 128, "category": "Neural Networks Basics", "question": "What is batch normalization and why is it used?", "difficulty": "Medium"}, {"id": 129, "category": "Neural Networks Basics", "question": "What is the difference between epochs, batch size, and iterations?", "difficulty": "Hard"}, {"id": 130, "category": "Neural Networks Basics", "question": "What is weight initialization and why does it matter?", "difficulty": "Easy"}, {"id": 131, "category": "Deep Learning and CNN", "question": "What is a Convolutional Neural Network (CNN) and how does it work?", "difficulty": "Easy"}, {"id": 132, "category": "Deep Learning and CNN", "question": "What is the purpose of convolutional layers and filters/kernels?", "difficulty": "Medium"}, {"id": 133, "category": "Deep Learning and CNN", "question": "What is pooling in CNNs (max pooling vs average pooling)?", "difficulty": "Hard"}, {"id": 134, "category": "Deep Learning and CNN", "question": "What is padding and stride in CNNs?", "difficulty": "Easy"}, {"id": 135, "category": "Deep Learning and CNN", "question": "What is transfer learning and why is it useful?", "difficulty": "Medium"}, {"id": 136, "category": "Deep Learning and CNN", "question": "Explain popular CNN architectures like VGG, ResNet, and Inception.", "difficulty": "Hard"}, {"id": 137, "category": "Deep Learning and CNN", "question": "What is data augmentation and why is it used in deep learning?", "difficulty": "Easy"}, {"id": 138, "category": "Deep Learning and CNN", "question": "What is the difference between a fully connected layer and a convolutional layer?", "difficulty": "Medium"}, {"id": 139, "category": "Deep Learning and CNN", "question": "What are skip connections in ResNet and why are they important?", "difficulty": "Hard"}, {"id": 140, "category": "Deep Learning and CNN", "question": "What is the role of GPUs in training deep learning models?", "difficulty": "Easy"}, {"id": 141, "category": "RNN and Sequence Models", "question": "What is a Recurrent Neural Network (RNN) and how does it work?", "difficulty": "Easy"}, {"id": 142, "category": "RNN and Sequence Models", "question": "What is the vanishing/exploding gradient problem in RNNs?", "difficulty": "Medium"}, {"id": 143, "category": "RNN and Sequence Models", "question": "Explain LSTM and how it solves the vanishing gradient problem.", "difficulty": "Hard"}, {"id": 144, "category": "RNN and Sequence Models", "question": "What is a GRU and how does it differ from LSTM?", "difficulty": "Easy"}, {"id": 145, "category": "RNN and Sequence Models", "question": "What is sequence-to-sequence modeling?", "difficulty": "Medium"}, {"id": 146, "category": "RNN and Sequence Models", "question": "What is attention mechanism and why was it introduced?", "difficulty": "Hard"}, {"id": 147, "category": "RNN and Sequence Models", "question": "What is a Transformer architecture and why has it replaced RNNs?", "difficulty": "Easy"}, {"id": 148, "category": "RNN and Sequence Models", "question": "What is the difference between unidirectional and bidirectional RNNs?", "difficulty": "Medium"}, {"id": 149, "category": "RNN and Sequence Models", "question": "What is teacher forcing in sequence models?", "difficulty": "Hard"}, {"id": 150, "category": "RNN and Sequence Models", "question": "What are common applications of RNNs and LSTMs?", "difficulty": "Easy"}, {"id": 151, "category": "NLP", "question": "What is tokenization in NLP?", "difficulty": "Easy"}, {"id": 152, "category": "NLP", "question": "What is the difference between stemming and lemmatization?", "difficulty": "Medium"}, {"id": 153, "category": "NLP", "question": "What is TF-IDF and how is it calculated?", "difficulty": "Hard"}, {"id": 154, "category": "NLP", "question": "What are word embeddings (Word2Vec, GloVe)?", "difficulty": "Easy"}, {"id": 155, "category": "NLP", "question": "What is the Bag of Words model?", "difficulty": "Medium"}, {"id": 156, "category": "NLP", "question": "What is Named Entity Recognition (NER)?", "difficulty": "Hard"}, {"id": 157, "category": "NLP", "question": "What is BERT and how does it differ from earlier NLP models?", "difficulty": "Easy"}, {"id": 158, "category": "NLP", "question": "What is the difference between rule-based and statistical NLP approaches?", "difficulty": "Medium"}, {"id": 159, "category": "NLP", "question": "What is sentiment analysis and how is it implemented?", "difficulty": "Hard"}, {"id": 160, "category": "NLP", "question": "What is the role of attention in NLP transformer models?", "difficulty": "Easy"}, {"id": 161, "category": "Probability and Statistics for ML", "question": "What is Bayes' theorem and how is it used in ML?", "difficulty": "Easy"}, {"id": 162, "category": "Probability and Statistics for ML", "question": "What is the difference between population and sample statistics?", "difficulty": "Medium"}, {"id": 163, "category": "Probability and Statistics for ML", "question": "What is a probability distribution and name common types used in ML.", "difficulty": "Hard"}, {"id": 164, "category": "Probability and Statistics for ML", "question": "What is the Central Limit Theorem and why is it important?", "difficulty": "Easy"}, {"id": 165, "category": "Probability and Statistics for ML", "question": "What is hypothesis testing and p-value?", "difficulty": "Medium"}, {"id": 166, "category": "Probability and Statistics for ML", "question": "What is correlation vs causation?", "difficulty": "Hard"}, {"id": 167, "category": "Probability and Statistics for ML", "question": "What is covariance and how is it different from correlation?", "difficulty": "Easy"}, {"id": 168, "category": "Probability and Statistics for ML", "question": "What is the difference between mean, median, and mode and when to use each?", "difficulty": "Medium"}, {"id": 169, "category": "Probability and Statistics for ML", "question": "What is conditional probability?", "difficulty": "Hard"}, {"id": 170, "category": "Probability and Statistics for ML", "question": "What is the difference between Type A and B testing in experiments (A/B testing)?", "difficulty": "Easy"}, {"id": 171, "category": "Bias-Variance and Overfitting", "question": "What is overfitting and underfitting in machine learning?", "difficulty": "Easy"}, {"id": 172, "category": "Bias-Variance and Overfitting", "question": "How do you detect overfitting in a model?", "difficulty": "Medium"}, {"id": 173, "category": "Bias-Variance and Overfitting", "question": "What techniques can be used to reduce overfitting?", "difficulty": "Hard"}, {"id": 174, "category": "Bias-Variance and Overfitting", "question": "What is the bias-variance tradeoff in detail?", "difficulty": "Easy"}, {"id": 175, "category": "Bias-Variance and Overfitting", "question": "What is regularization's role in handling overfitting?", "difficulty": "Medium"}, {"id": 176, "category": "Bias-Variance and Overfitting", "question": "What is the difference between training error and generalization error?", "difficulty": "Hard"}, {"id": 177, "category": "Bias-Variance and Overfitting", "question": "What is a validation set and why is it different from a test set?", "difficulty": "Easy"}, {"id": 178, "category": "Bias-Variance and Overfitting", "question": "What is data augmentation's role in reducing overfitting?", "difficulty": "Medium"}, {"id": 179, "category": "Bias-Variance and Overfitting", "question": "What is ensemble learning's role in reducing variance?", "difficulty": "Hard"}, {"id": 180, "category": "Bias-Variance and Overfitting", "question": "How does increasing model complexity affect bias and variance?", "difficulty": "Easy"}, {"id": 181, "category": "MLOps and Deployment", "question": "What is MLOps and why is it important?", "difficulty": "Easy"}, {"id": 182, "category": "MLOps and Deployment", "question": "What is model versioning and why is it needed?", "difficulty": "Medium"}, {"id": 183, "category": "MLOps and Deployment", "question": "What is the difference between model training and model serving?", "difficulty": "Hard"}, {"id": 184, "category": "MLOps and Deployment", "question": "What is A/B testing in the context of deploying ML models?", "difficulty": "Easy"}, {"id": 185, "category": "MLOps and Deployment", "question": "What is model drift and concept drift?", "difficulty": "Medium"}, {"id": 186, "category": "MLOps and Deployment", "question": "How do you monitor a deployed ML model in production?", "difficulty": "Hard"}, {"id": 187, "category": "MLOps and Deployment", "question": "What is the difference between batch inference and real-time inference?", "difficulty": "Easy"}, {"id": 188, "category": "MLOps and Deployment", "question": "What is a feature store in MLOps?", "difficulty": "Medium"}, {"id": 189, "category": "MLOps and Deployment", "question": "What is containerization (Docker) and why is it used for ML deployment?", "difficulty": "Hard"}, {"id": 190, "category": "MLOps and Deployment", "question": "What is CI/CD in the context of machine learning pipelines?", "difficulty": "Easy"}, {"id": 191, "category": "Real World and System Design", "question": "How would you design a recommendation system for an e-commerce platform?", "difficulty": "Easy"}, {"id": 192, "category": "Real World and System Design", "question": "How would you build a fraud detection system?", "difficulty": "Medium"}, {"id": 193, "category": "Real World and System Design", "question": "How would you handle a highly imbalanced dataset in a real-world fraud problem?", "difficulty": "Hard"}, {"id": 194, "category": "Real World and System Design", "question": "How would you design a spam email classifier end-to-end?", "difficulty": "Easy"}, {"id": 195, "category": "Real World and System Design", "question": "How would you approach building a churn prediction model?", "difficulty": "Medium"}, {"id": 196, "category": "Real World and System Design", "question": "What considerations are important when deploying ML models at scale?", "difficulty": "Hard"}, {"id": 197, "category": "Real World and System Design", "question": "How would you debug a model that performs well in training but poorly in production?", "difficulty": "Easy"}, {"id": 198, "category": "Real World and System Design", "question": "How do you choose between different algorithms for a given business problem?", "difficulty": "Medium"}, {"id": 199, "category": "Real World and System Design", "question": "What is the role of explainability (SHAP, LIME) in real-world ML systems?", "difficulty": "Hard"}, {"id": 200, "category": "Real World and System Design", "question": "How would you design an end-to-end ML pipeline from data collection to deployment?", "difficulty": "Easy"}];
+
+const projects = [
+  {
+    title:"Customer Churn Prediction Dashboard",
+    level:"Beginner–Intermediate",
+    desc:"Build an end-to-end pipeline that predicts which telecom/SaaS customers are likely to churn, using a public dataset, and visualize risk scores on a simple dashboard.",
+    stack:["Python","Pandas","Scikit-learn","Streamlit","Logistic Regression / XGBoost"],
+    resume:"Built and deployed a churn prediction model (XGBoost) with 85%+ recall, served via an interactive Streamlit dashboard for business stakeholders."
+  },
+  {
+    title:"Resume Screening & Ranking System",
+    level:"Intermediate",
+    desc:"Use NLP to parse resumes (PDF/text), extract skills, and rank candidates against a job description using similarity scoring — directly relevant to your work at Cirameti.",
+    stack:["Python","spaCy/NLTK","TF-IDF / Embeddings","Flask"],
+    resume:"Developed an NLP-based resume screening tool that ranks candidates by job-description similarity, reducing manual screening time by an estimated 60%."
+  },
+  {
+    title:"Real-Time Spam / Fraud Email Classifier",
+    level:"Beginner",
+    desc:"Train a classifier on email text to detect spam or phishing attempts, deploy it as a small API, and add a browser extension or simple UI to test live messages.",
+    stack:["Python","Naive Bayes / SVM","TF-IDF","FastAPI"],
+    resume:"Built a spam/phishing detection model achieving 96% accuracy and exposed it as a REST API for real-time classification."
+  },
+  {
+    title:"Image Classification Web App (CNN)",
+    level:"Intermediate",
+    desc:"Train a CNN (from scratch or via transfer learning) to classify images in a niche domain (e.g. plant disease, waste sorting, X-ray anomaly) and deploy as a web app.",
+    stack:["TensorFlow/PyTorch","CNN","Transfer Learning (ResNet)","Gradio/Streamlit"],
+    resume:"Trained a transfer-learning CNN (ResNet50) achieving 92% validation accuracy for image classification; deployed as a live web demo."
+  },
+  {
+    title:"Stock / Crypto Price Trend Predictor",
+    level:"Intermediate",
+    desc:"Use historical price data with an LSTM or gradient boosting model to forecast short-term trends, complete with backtesting and a visualization dashboard.",
+    stack:["Python","LSTM","Pandas","Matplotlib/Plotly"],
+    resume:"Built a time-series forecasting model (LSTM) for stock trend prediction with backtested performance visualization on historical data."
+  },
+  {
+    title:"AI Chatbot with RAG (Retrieval Augmented Generation)",
+    level:"Advanced",
+    desc:"Build a chatbot that answers questions from a custom document set (e.g. course material, FAQs) using embeddings + vector search + an LLM API.",
+    stack:["Python","LangChain","Vector DB (FAISS/Chroma)","OpenAI/Claude API"],
+    resume:"Built a RAG-based chatbot using vector embeddings and an LLM API to answer domain-specific questions with grounded, accurate responses."
+  },
+  {
+    title:"Customer Segmentation using Clustering",
+    level:"Beginner",
+    desc:"Apply K-Means / hierarchical clustering on retail transaction data (RFM analysis) to segment customers for targeted marketing strategies.",
+    stack:["Python","K-Means","Scikit-learn","Seaborn"],
+    resume:"Performed customer segmentation via RFM analysis and K-Means clustering, identifying 4 actionable customer personas to guide marketing strategy."
+  },
+  {
+    title:"Sentiment Analysis on Social Media / Reviews",
+    level:"Beginner–Intermediate",
+    desc:"Scrape or use a public dataset of product reviews / tweets, build a sentiment classifier, and present insights through a dashboard with trend charts.",
+    stack:["Python","NLTK/Transformers","BERT (optional)","Power BI / Plotly"],
+    resume:"Built a sentiment analysis pipeline on 50K+ product reviews using fine-tuned BERT, visualized through an interactive insights dashboard."
+  },
+  {
+    title:"End-to-End MLOps Pipeline",
+    level:"Advanced",
+    desc:"Take any model from earlier projects and wrap it with a full MLOps workflow — versioning, CI/CD, containerization, and monitoring — to show production readiness.",
+    stack:["Docker","GitHub Actions","MLflow","FastAPI","AWS/GCP free tier"],
+    resume:"Designed an end-to-end MLOps pipeline with Docker containerization, CI/CD via GitHub Actions, and MLflow experiment tracking for reproducible deployment."
+  },
+  {
+    title:"Personalized Recommendation Engine",
+    level:"Intermediate–Advanced",
+    desc:"Build a movie/product recommender using collaborative filtering and content-based filtering, then combine both into a hybrid system with a simple UI.",
+    stack:["Python","Surprise/LightFM","Collaborative Filtering","Streamlit"],
+    resume:"Built a hybrid recommendation engine combining collaborative and content-based filtering, achieving strong precision@10 on a benchmark movie dataset."
+  }
+];
+
+// ---- State ----
+let state = {
+  search:"",
+  category:"all",
+  status:"all",
+  diff:"all"
+};
+let completed = JSON.parse(localStorage.getItem('ml_prep_completed') || '{}');
+
+// ---- Populate category filter ----
+const categoryFilter = document.getElementById('categoryFilter');
+const categories = [...new Set(questions.map(q=>q.category))];
+categories.forEach(c=>{
+  const opt = document.createElement('option');
+  opt.value = c; opt.textContent = c;
+  categoryFilter.appendChild(opt);
+});
+
+function saveProgress(){
+  localStorage.setItem('ml_prep_completed', JSON.stringify(completed));
+}
+
+function toggleDone(id){
+  completed[id] = !completed[id];
+  saveProgress();
+  render();
+}
+
+function matches(q){
+  if(state.category!=="all" && q.category!==state.category) return false;
+  if(state.diff!=="all" && q.difficulty!==state.diff) return false;
+  if(state.status==="done" && !completed[q.id]) return false;
+  if(state.status==="pending" && completed[q.id]) return false;
+  if(state.search){
+    const s = state.search.toLowerCase();
+    if(!q.question.toLowerCase().includes(s) && !q.category.toLowerCase().includes(s)) return false;
+  }
+  return true;
+}
+
+function render(){
+  const list = document.getElementById('qList');
+  const filtered = questions.filter(matches);
+  list.innerHTML = "";
+  document.getElementById('noResults').classList.toggle('hidden', filtered.length>0);
+
+  filtered.forEach(q=>{
+    const card = document.createElement('div');
+    card.className = 'q-card' + (completed[q.id] ? ' done' : '');
+    card.onclick = ()=>toggleDone(q.id);
+    card.innerHTML = `
+      <div class="q-check">${completed[q.id] ? '✓' : ''}</div>
+      <div class="q-body">
+        <div class="q-meta">
+          <span class="q-id">#${q.id}</span>
+          <span class="q-cat">${q.category}</span>
+          <span class="q-diff ${q.difficulty}">${q.difficulty}</span>
+        </div>
+        <div class="q-text">${q.question}</div>
+      </div>
+    `;
+    list.appendChild(card);
+  });
+
+  const total = questions.length;
+  const doneCount = questions.filter(q=>completed[q.id]).length;
+  document.getElementById('statTotal').textContent = total;
+  document.getElementById('statDone').textContent = doneCount;
+  document.getElementById('statLeft').textContent = total - doneCount;
+  const pct = total ? Math.round((doneCount/total)*100) : 0;
+  document.getElementById('statPct').textContent = pct + '%';
+  document.getElementById('progressBar').style.width = pct + '%';
+}
+
+document.getElementById('searchInput').addEventListener('input', e=>{
+  state.search = e.target.value;
+  render();
+});
+categoryFilter.addEventListener('change', e=>{
+  state.category = e.target.value;
+  render();
+});
+document.getElementById('statusFilter').addEventListener('change', e=>{
+  state.status = e.target.value;
+  render();
+});
+document.querySelectorAll('.diff-chip').forEach(chip=>{
+  chip.addEventListener('click', ()=>{
+    document.querySelectorAll('.diff-chip').forEach(c=>c.classList.remove('active'));
+    chip.classList.add('active');
+    state.diff = chip.dataset.diff;
+    render();
+  });
+});
+
+// ---- Tabs ----
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const tab = btn.dataset.tab;
+    document.getElementById('questions-tab').classList.toggle('hidden', tab!=='questions');
+    document.getElementById('projects-tab').classList.toggle('hidden', tab!=='projects');
+  });
+});
+
+// ---- Projects render ----
+const projGrid = document.getElementById('projGrid');
+projects.forEach((p,i)=>{
+  const card = document.createElement('div');
+  card.className = 'proj-card';
+  card.innerHTML = `
+    <div class="proj-num">${String(i+1).padStart(2,'0')}</div>
+    <h3>${p.title}</h3>
+    <div class="proj-level">${p.level}</div>
+    <p>${p.desc}</p>
+    <div class="proj-stack">${p.stack.map(s=>`<span>${s}</span>`).join('')}</div>
+    <div class="proj-resume"><b>Resume line:</b> ${p.resume}</div>
+  `;
+  projGrid.appendChild(card);
+});
+
+render();
+</script>
+</body>
+</html>
